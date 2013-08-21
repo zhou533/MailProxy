@@ -16,5 +16,13 @@
     <context:component-scan base-package="com.scipublish.MailProxy">
     </context:component-scan>
 
+    <bean id="MailGunConfig" class="com.scipublish.MailProxy.common.MailGunConfiguration">
+        <property name="apiUrl" value="https://api.mailgun.net/v2" />
+        <property name="key" value="key-8n6oqa7yq-wa3fyfoqm6ostvkr-x9p87" />
+    </bean>
+
+    <bean id="MailProxyConfig" class="com.scipublish.MailProxy.common.MailProxyConfiguration">
+        <property name="domain" value="scipublish.com" />
+    </bean>
 
 </beans>
