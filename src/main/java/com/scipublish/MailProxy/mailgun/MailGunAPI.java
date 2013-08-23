@@ -1,5 +1,6 @@
 package com.scipublish.MailProxy.mailgun;
 
+import com.scipublish.MailProxy.model.MPMail;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -19,18 +20,13 @@ import java.util.List;
  */
 public class MailGunAPI {
 
-    public static String SendHtmlMail(String key, String domain,
-                                      String from, List<String> to,
-                                      String subject, String html){
+    public static String SendMail(String key,
+                                      String domain,
+                                      MailGunSendBuilder builder){
         Client client =Client.create();
         client.addFilter(new HTTPBasicAuthFilter("api", key));
         WebResource webResource = client.resource("https://api.mailgun.net/v2/" + domain + "/messages");
-        MultivaluedMapImpl formData = new MultivaluedMapImpl();
-        formData.add("from", from);
-        formData.add("to", StringUtils.join(to, ","));
-        formData.add("subject", subject);
-        formData.add("text", html);
-        formData.add("o:testmode", true);
+        MultivaluedMapImpl formData = builder.getParams();
         ClientResponse response = webResource.type(MediaType.APPLICATION_FORM_URLENCODED).post(ClientResponse.class, formData);
         return response.getEntity(String.class);
     }

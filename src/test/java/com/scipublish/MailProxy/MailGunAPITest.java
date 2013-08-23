@@ -3,6 +3,7 @@ package com.scipublish.MailProxy;
 import com.scipublish.MailProxy.common.MailGunConfiguration;
 import com.scipublish.MailProxy.common.MailProxyConfiguration;
 import com.scipublish.MailProxy.mailgun.MailGunAPI;
+import com.scipublish.MailProxy.mailgun.MailGunSendBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +32,17 @@ public class MailGunAPITest {
 
     @Test
     public void testSendHtmlMail() throws Exception {
-        List<String> to = new ArrayList<String>();
-        to.add("zhouqiang@gozap.com");
-        String result = MailGunAPI.SendHtmlMail(
-                mailGunConfiguration.getKey(), mailProxyConfiguration.getDomain(),
-                "me@scipublish.com", to, "Hello", "XXX");
+        MailGunSendBuilder builder = new MailGunSendBuilder()
+                .setFrom("me@scipublish.com")
+                .addMail("zhouqiang@gozap.com")
+                .addMail("yo.zhouq@qq.com","zhou")
+                .setSubject("Hello Mailgun")
+                .setText("asd");
+        System.out.println(builder.toString());
+        String result = MailGunAPI.SendMail(
+                mailGunConfiguration.getKey(),
+                mailProxyConfiguration.getDomain(),
+                builder);
         System.out.println(result);
 
     }
