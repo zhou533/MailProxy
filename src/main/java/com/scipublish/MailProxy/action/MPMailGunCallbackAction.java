@@ -26,14 +26,14 @@ public class MPMailGunCallbackAction {
     @RequestMapping("drop")
     public void dropCallback(HttpServletRequest request, HttpServletResponse response){
 
-        String event = (String) request.getAttribute("event");
-        String recipient = (String) request.getAttribute("recipient");
-        String domain = (String) request.getAttribute("domain");
-        String messageHeaders = (String) request.getAttribute("message-headers");
-        String reason = (String) request.getAttribute("reason");
-        String code = (String) request.getAttribute("code");
-        String description = (String) request.getAttribute("description");
-        String timestamp = (String) request.getAttribute("timestamp");
+        String event = (String) request.getParameter("event");
+        String recipient = (String) request.getParameter("recipient");
+        String domain = (String) request.getParameter("domain");
+        String messageHeaders = (String) request.getParameter("message-headers");
+        String reason = (String) request.getParameter("reason");
+        String code = (String) request.getParameter("code");
+        String description = (String) request.getParameter("description");
+        String timestamp = (String) request.getParameter("timestamp");
 
         logger.info(recipient + " " + event + " at " + timestamp
                 + ". domain=" + domain
@@ -43,5 +43,44 @@ public class MPMailGunCallbackAction {
                 + ", Detailed explanation=" + description);
     }
 
+    @RequestMapping("delivered")
+    public void deliveredCallback(HttpServletRequest request, HttpServletResponse response){
+
+        String event = (String) request.getAttribute("event");
+        String recipient = (String) request.getAttribute("recipient");
+        String domain = (String) request.getAttribute("domain");
+        String messageHeaders = (String) request.getAttribute("message-headers");
+        String messageId = (String) request.getAttribute("Messsage-Id");
+        String timestamp = (String) request.getAttribute("timestamp");
+
+        logger.info(recipient + " " + event + " at " + timestamp
+                + ". domain=" + domain
+                + ", message-headers=" + messageHeaders
+                + ", Messsage-Id=" + messageId);
+    }
+
+    @RequestMapping("bounce")
+    public void bounceCallback(HttpServletRequest request, HttpServletResponse response){
+        String event = (String) request.getParameter("event");
+        logger.info("bounce " + event);
+    }
+
+    @RequestMapping("complaint")
+    public void complaintCallback(HttpServletRequest request, HttpServletResponse response){
+        String event = (String) request.getParameter("event");
+        logger.info("complaint " + event);
+    }
+
+    @RequestMapping("opens")
+    public void openCallback(HttpServletRequest request, HttpServletResponse response){
+        String event = (String) request.getParameter("event");
+        logger.info("opens " + event);
+    }
+
+    @RequestMapping("clicks")
+    public void clickCallback(HttpServletRequest request, HttpServletResponse response){
+        String event = (String) request.getParameter("event");
+        logger.info("clicks " + event);
+    }
 
 }

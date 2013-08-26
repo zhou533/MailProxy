@@ -35,9 +35,10 @@ public class MailGunAPITest {
         MailGunSendBuilder builder = new MailGunSendBuilder()
                 .setFrom("me@scipublish.com")
                 .addMail("zhouqiang@gozap.com")
-                .addMail("yo.zhouq@qq.com","zhou")
                 .setSubject("Hello Mailgun")
-                .setText("asd");
+                .setHtml("<a href=\"http://www.w3school.com.cn\">W3School</a>").setTrackEnable(true)
+                .setTrackClicksEnable(true)
+                .setTrackOpensEnable(true);
         System.out.println(builder.toString());
         String result = MailGunAPI.SendMail(
                 mailGunConfiguration.getKey(),
