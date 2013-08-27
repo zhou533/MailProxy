@@ -1,6 +1,8 @@
 package com.scipublish.MailProxy;
 
+import com.scipublish.MailProxy.mapper.MPMailRecordMapper;
 import com.scipublish.MailProxy.mapper.MPMailSessionMapper;
+import com.scipublish.MailProxy.model.MPMailRecord;
 import com.scipublish.MailProxy.model.MPMailSession;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,21 +20,38 @@ import java.sql.Timestamp;
  * To change this template use File | Settings | File Templates.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/spring/*.xml" })
+@ContextConfiguration(locations = { "classpath:/spring/applicationContext-db.xml" })
 public class MailDBTest {
 
     @Autowired
     private MPMailSessionMapper mailSessionMapper;
+
+    @Autowired
+    private MPMailRecordMapper mailRecordMapper;
 
     @Test
     public void testSessionInsert() throws Exception {
         MPMailSession session = new MPMailSession();
         session.setSession("demo");
         session.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        session.setSendTime(new Timestamp(System.currentTimeMillis()));
         session.setFrom("zhoutee@gozap.com");
         session.setSubject("Hello");
         session.setContent("XXX");
         Integer id = mailSessionMapper.addMailSession(session);
         System.out.println("Session id : " + id);
+    }
+
+    @Test
+    public void testRecordInsert() throws Exception {
+        MPMailRecord record = new MPMailRecord();
+        record.setReceiver("asdasd");
+        record.setSessionId(2);
+        record.setSendTime(new Timestamp(System.currentTimeMillis()));
+        record.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        record.setState(0);
+        record.setMessageId("adaseeeee");
+        Integer id = mailRecordMapper.addMailRecord(record);
+        System.out.println("--------->Record id : " + id);
     }
 }

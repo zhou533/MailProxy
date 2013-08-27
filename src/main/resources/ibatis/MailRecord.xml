@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.scipublish.MailProxy.mapper.MPMailRecordMapper">
+
+    <resultMap id="recordMap" type="com.scipublish.MailProxy.model.MPMailRecord">
+        <result column="id" property="id" jdbcType="BIGINT" />
+        <result column="receiver" property="receiver" jdbcType="VARCHAR" />
+        <result column="session_id" property="sessionId" jdbcType="BIGINT" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="send_time" property="sendTime" jdbcType="TIMESTAMP" />
+        <result column="message_id" property="messageId" jdbcType="VARCHAR" />
+        <result column="state" property="state" jdbcType="TINYINT" />
+        <result column="tag" property="tag" jdbcType="VARCHAR" />
+        <result column="campaign" property="campaign" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <!-- -->
+    <insert id="addMailRecord" parameterType="record">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        insert into tbl_mail_send_records (receiver, session_id, send_time, create_time, message_id, state, tag, campaign)
+        values (#{receiver},#{sessionId},#{sendTime},#{createTime},#{messageId},#{state},#{tag},#{campaign})
+    </insert>
+
+</mapper>

@@ -1,14 +1,17 @@
 package com.scipublish.MailProxy.action;
 
+import org.apache.struts2.dispatcher.multipart.MultiPartRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.BufferedReader;
+import java.util.Enumeration;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,17 +26,17 @@ public class MPMailGunCallbackAction {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @RequestMapping("drop")
-    public void dropCallback(HttpServletRequest request, HttpServletResponse response){
+    @RequestMapping(value = "drop", method = RequestMethod.POST)
+    public void dropCallback(MultipartHttpServletRequest request, HttpServletResponse response){
 
-        String event = (String) request.getParameter("event");
-        String recipient = (String) request.getParameter("recipient");
-        String domain = (String) request.getParameter("domain");
-        String messageHeaders = (String) request.getParameter("message-headers");
-        String reason = (String) request.getParameter("reason");
-        String code = (String) request.getParameter("code");
-        String description = (String) request.getParameter("description");
-        String timestamp = (String) request.getParameter("timestamp");
+        String event = request.getParameter("event");
+        String recipient = request.getParameter("recipient");
+        String domain = request.getParameter("domain");
+        String messageHeaders = request.getParameter("message-headers");
+        String reason = request.getParameter("reason");
+        String code = request.getParameter("code");
+        String description = request.getParameter("description");
+        String timestamp = request.getParameter("timestamp");
 
         logger.info(recipient + " " + event + " at " + timestamp
                 + ". domain=" + domain

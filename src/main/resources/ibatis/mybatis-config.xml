@@ -9,9 +9,11 @@
     <!-- 别名定义 -->
     <typeAliases>
         <typeAlias alias="session" type="com.scipublish.MailProxy.model.MPMailSession" />
+        <typeAlias alias="record" type="com.scipublish.MailProxy.model.MPMailRecord" />
     </typeAliases>
     <!-- SQL映射文件 -->
     <mappers>
         <mapper resource="ibatis/MailSession.xml" />
+        <mapper resource="ibatis/MailRecord.xml" />
     </mappers>
 </configuration>

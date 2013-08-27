@@ -3,21 +3,21 @@
 <mapper namespace="com.scipublish.MailProxy.mapper.MPMailSessionMapper">
 
     <resultMap id="sessionMap" type="com.scipublish.MailProxy.model.MPMailSession">
-        <result column="id" property="id" jdbcType="INTEGER" />
+        <result column="id" property="id" jdbcType="BIGINT" />
         <result column="session" property="session" jdbcType="VARCHAR" />
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
         <result column="send_time" property="sendTime" jdbcType="TIMESTAMP" />
-        <result column="from" property="from" jdbcType="VARCHAR" />
+        <result column="sender" property="from" jdbcType="VARCHAR" />
         <result column="subject" property="subject" jdbcType="VARCHAR" />
         <result column="content" property="content" jdbcType="VARCHAR" />
     </resultMap>
 
     <!-- -->
-    <insert id="addMailSession" parameterMap="sessionMap">
+    <insert id="addMailSession" parameterType="session">
         <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
             SELECT LAST_INSERT_ID() AS id
         </selectKey>
-        insert into tbl_mail_send_session (session, create_time, send_time, from, subject, content)
+        insert into tbl_mail_send_session (session, create_time, send_time, sender, subject, content)
         values (#{session},#{createTime},#{sendTime},#{from},#{subject},#{content})
     </insert>
 

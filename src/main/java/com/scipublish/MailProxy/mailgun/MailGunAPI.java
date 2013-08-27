@@ -1,15 +1,12 @@
 package com.scipublish.MailProxy.mailgun;
 
-import com.scipublish.MailProxy.model.MPMail;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.ws.rs.core.MediaType;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
