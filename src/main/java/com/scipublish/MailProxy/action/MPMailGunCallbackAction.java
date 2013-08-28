@@ -1,16 +1,13 @@
 package com.scipublish.MailProxy.action;
 
-import org.apache.struts2.dispatcher.multipart.MultiPartRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.util.Enumeration;
 
 /**
@@ -27,9 +24,13 @@ public class MPMailGunCallbackAction {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @RequestMapping(value = "drop", method = RequestMethod.POST)
-    public void dropCallback(MultipartHttpServletRequest request, HttpServletResponse response){
+    public void dropCallback(HttpServletRequest request, HttpServletResponse response){
 
-        String event = request.getParameter("event");
+        /*String event = request.getParameter("event");
+        if (null == event || !StringUtils.equalsIgnoreCase(event, "droped")){
+            logger.info("Not DROP event!");
+            return;
+        }
         String recipient = request.getParameter("recipient");
         String domain = request.getParameter("domain");
         String messageHeaders = request.getParameter("message-headers");
@@ -43,47 +44,82 @@ public class MPMailGunCallbackAction {
                 + ", message-headers=" + messageHeaders
                 + ", Reason for failure=" + reason
                 + ", ESP response code=" + code
-                + ", Detailed explanation=" + description);
+                + ", Detailed explanation=" + description);*/
+        logger.info("---------------drop");
+        Enumeration<String> e = request.getParameterNames();
+        while (e.hasMoreElements()){
+            String name = e.nextElement();
+            String value = request.getParameter(name);
+            logger.info("name: " + name + " - " + value + "\n");
+        }
     }
 
-    @RequestMapping("delivered")
+    @RequestMapping(value = "delivered", method = RequestMethod.POST)
     public void deliveredCallback(HttpServletRequest request, HttpServletResponse response){
 
-        String event = (String) request.getAttribute("event");
-        String recipient = (String) request.getAttribute("recipient");
-        String domain = (String) request.getAttribute("domain");
-        String messageHeaders = (String) request.getAttribute("message-headers");
-        String messageId = (String) request.getAttribute("Messsage-Id");
-        String timestamp = (String) request.getAttribute("timestamp");
+        /*String event = request.getParameter("event");
+        String recipient = request.getParameter("recipient");
+        String domain = request.getParameter("domain");
+        String messageHeaders = request.getParameter("message-headers");
+        String messageId = request.getParameter("Messsage-Id");
+        String timestamp = request.getParameter("timestamp");
 
         logger.info(recipient + " " + event + " at " + timestamp
                 + ". domain=" + domain
                 + ", message-headers=" + messageHeaders
-                + ", Messsage-Id=" + messageId);
+                + ", Messsage-Id=" + messageId);*/
+        logger.info("---------------delivered");
+        Enumeration<String> e = request.getParameterNames();
+        while (e.hasMoreElements()){
+            String name = e.nextElement();
+            String value = request.getParameter(name);
+            logger.info("name: " + name + " - " + value + "\n");
+        }
     }
 
-    @RequestMapping("bounce")
+    @RequestMapping(value = "bounce", method = RequestMethod.POST)
     public void bounceCallback(HttpServletRequest request, HttpServletResponse response){
-        String event = (String) request.getParameter("event");
-        logger.info("bounce " + event);
+        logger.info("---------------bounce");
+        Enumeration<String> e = request.getParameterNames();
+        while (e.hasMoreElements()){
+            String name = e.nextElement();
+            String value = request.getParameter(name);
+            logger.info("name: " + name + " - " + value + "\n");
+        }
+
     }
 
-    @RequestMapping("complaint")
+    @RequestMapping(value = "complaint", method = RequestMethod.POST)
     public void complaintCallback(HttpServletRequest request, HttpServletResponse response){
-        String event = (String) request.getParameter("event");
-        logger.info("complaint " + event);
+        logger.info("---------------complaint");
+        Enumeration<String> e = request.getParameterNames();
+        while (e.hasMoreElements()){
+            String name = e.nextElement();
+            String value = request.getParameter(name);
+            logger.info("name: " + name + " - " + value + "\n");
+        }
     }
 
-    @RequestMapping("opens")
+    @RequestMapping(value = "opens", method = RequestMethod.POST)
     public void openCallback(HttpServletRequest request, HttpServletResponse response){
-        String event = (String) request.getParameter("event");
-        logger.info("opens " + event);
+        logger.info("---------------opens");
+        Enumeration<String> e = request.getParameterNames();
+        while (e.hasMoreElements()){
+            String name = e.nextElement();
+            String value = request.getParameter(name);
+            logger.info("name: " + name + " - " + value + "\n");
+        }
     }
 
-    @RequestMapping("clicks")
+    @RequestMapping(value = "clicks", method = RequestMethod.POST)
     public void clickCallback(HttpServletRequest request, HttpServletResponse response){
-        String event = (String) request.getParameter("event");
-        logger.info("clicks " + event);
+        logger.info("---------------clicks");
+        Enumeration<String> e = request.getParameterNames();
+        while (e.hasMoreElements()){
+            String name = e.nextElement();
+            String value = request.getParameter(name);
+            logger.info("name: " + name + " - " + value + "\n");
+        }
     }
 
 }
