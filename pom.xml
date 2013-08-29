@@ -280,5 +280,16 @@
             <version>1.15</version>
         </dependency>
 
+        <!-- jesque -->
+        <dependency>
+            <groupId>net.greghaines</groupId>
+            <artifactId>jesque</artifactId>
+            <version>1.3.0</version>
+        </dependency>
+
+        <!-- jedis -->
+
+
     </dependencies>
+
 </project>

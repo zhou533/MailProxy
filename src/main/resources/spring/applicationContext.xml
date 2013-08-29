@@ -33,4 +33,12 @@
             <value>UTF-8</value>
         </property>
     </bean>
+
+    <!-- jesque config -->
+    <bean id="jesqueConfigBuilder" class="com.scipublish.MailProxy.common.JesqueConfigBuilder">
+        <property name="host" value="172.16.9.103" />
+        <property name="port" value="6379" />
+        <property name="namespace" value="com.scipublish.mailproxy" />
+        <property name="timeout" value="5000" />
+    </bean>
 </beans>
