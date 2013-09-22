@@ -8,7 +8,15 @@ package com.scipublish.MailProxy.model;
  * To change this template use File | Settings | File Templates.
  */
 public enum MPMailRecordState {
-    MAIL_CREATED(0), MAIL_SENT(1), MAIL_DELIVERED(2), MAIL_DROPED(3);
+    MAIL_CREATED(0),
+    MAIL_SENT(1),
+    MAIL_DELIVERED(2),
+    MAIL_DROPED_HARDFAIL(3),
+    MAIL_DROPED_MAXFAIL(4),
+    MAIL_DROPED_OLD(5),
+    MAIL_COMPLAINT(6),
+    MAIL_BOUNCE(7),
+    MAIL_UNKNOWN(8);
 
     private int value;
 
@@ -29,10 +37,18 @@ public enum MPMailRecordState {
             case 2:
                 return MPMailRecordState.MAIL_DELIVERED;
             case 3:
-                return MPMailRecordState.MAIL_DROPED;
+                return MPMailRecordState.MAIL_DROPED_HARDFAIL;
+            case 4:
+                return MPMailRecordState.MAIL_DROPED_MAXFAIL;
+            case 5:
+                return MPMailRecordState.MAIL_DROPED_OLD;
+            case 6:
+                return MPMailRecordState.MAIL_COMPLAINT;
+            case 7:
+                return MPMailRecordState.MAIL_BOUNCE;
             default:
                 break;
         }
-        return MPMailRecordState.MAIL_DROPED;
+        return MPMailRecordState.MAIL_UNKNOWN;
     }
 }

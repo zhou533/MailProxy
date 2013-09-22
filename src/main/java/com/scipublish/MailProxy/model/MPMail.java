@@ -10,16 +10,21 @@ import org.apache.commons.lang3.StringUtils;
  * To change this template use File | Settings | File Templates.
  */
 public class MPMail {
+    private Integer id;
     private String name;
     private String mail;
+    private Integer state;
 
     public MPMail(String mail, String name) {
         this.mail = mail;
         this.name = name;
+        this.state = 0;
     }
 
     public MPMail(String mail) {
         this.mail = mail;
+        this.name = null;
+        this.state = 0;
     }
 
     public String getMail() {
@@ -36,6 +41,22 @@ public class MPMail {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
     }
 
     @Override

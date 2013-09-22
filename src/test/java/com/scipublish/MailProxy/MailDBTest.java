@@ -1,7 +1,9 @@
 package com.scipublish.MailProxy;
 
+import com.scipublish.MailProxy.mapper.MPMailMapper;
 import com.scipublish.MailProxy.mapper.MPMailRecordMapper;
 import com.scipublish.MailProxy.mapper.MPMailSessionMapper;
+import com.scipublish.MailProxy.model.MPMail;
 import com.scipublish.MailProxy.model.MPMailRecord;
 import com.scipublish.MailProxy.model.MPMailSession;
 import org.junit.Test;
@@ -29,6 +31,10 @@ public class MailDBTest {
     @Autowired
     private MPMailRecordMapper mailRecordMapper;
 
+    @Autowired
+    private MPMailMapper mailMapper;
+
+
     @Test
     public void testSessionInsert() throws Exception {
         MPMailSession session = new MPMailSession();
@@ -53,5 +59,15 @@ public class MailDBTest {
         record.setMessageId("adaseeeee");
         Integer id = mailRecordMapper.addMailRecord(record);
         System.out.println("--------->Record id : " + id);
+    }
+
+    @Test
+    public void testMailInsert() throws Exception {
+        MPMail mail = new MPMail("SS@WS.com");
+        Boolean result = mailMapper.addMail(mail);
+        if (result)
+            System.out.println("--------->Record id : " + mail.getId());
+        else
+            System.out.println("add mail failed.");
     }
 }

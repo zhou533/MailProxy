@@ -5,6 +5,10 @@ import net.greghaines.jesque.Job;
 import net.greghaines.jesque.client.ClientImpl;
 import net.greghaines.jesque.client.Client;
 import net.greghaines.jesque.json.ObjectMapperFactory;
+import static net.greghaines.jesque.utils.JesqueUtils.map;
+import static net.greghaines.jesque.utils.JesqueUtils.entry;
+import net.greghaines.jesque.worker.Worker;
+import net.greghaines.jesque.worker.WorkerImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -47,5 +51,16 @@ public class JesqueTest {
         final Client client = new ClientImpl(config);
         client.enqueue("foo", job);
         client.end();
+    }
+
+    @Test
+    public void testWork() throws Exception {
+        Config config = jesqueConfigBuilder.build();
+        final Worker worker = new WorkerImpl(config,
+                Arrays.asList("foo"), map(entry("TestAction", TestAction.class)));
+        final Thread workerThread = new Thread(worker);
+        workerThread.start();
+
+        workerThread.join();
     }
 }
