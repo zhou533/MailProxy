@@ -11,6 +11,17 @@ import com.scipublish.MailProxy.model.MPMail;
  */
 public interface MPMailMapper {
 
-    public Boolean addMail(MPMail mail);
-    //public Boolean updateMail(MPMail mail);
+    /**
+     *
+     * @param mail
+     * @return >0 succeed, otherwise failed
+     */
+    public Integer addMail(MPMail mail);
+
+    /**
+     *
+     * @param mail
+     * @return >0 succeed, otherwise failed
+     */
+    public Integer updateMail(MPMail mail);
 }

@@ -1,5 +1,7 @@
 package com.scipublish.MailProxy.model;
 
+import com.alibaba.fastjson.annotation.JSONCreator;
+import com.alibaba.fastjson.annotation.JSONField;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -59,6 +61,10 @@ public class MPMail {
         this.state = state;
     }
 
+    public MPMailState getMailState() {
+        return MPMailState.getState(this.state);
+    }
+
     @Override
     public String toString() {
         if (StringUtils.isEmpty(name)){
@@ -75,5 +81,16 @@ public class MPMail {
     @Override
     public int hashCode() {
         return (mail != null) ? mail.hashCode() : "".hashCode();    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
+    @JSONCreator
+    public static MPMail create(@JSONField(name = "id") Integer id,
+                                @JSONField(name = "name") String name,
+                                @JSONField(name = "mail") String mail,
+                                @JSONField(name = "state") Integer state) {
+        MPMail mpMail = new MPMail(mail, name);
+        mpMail.setId(id);
+        mpMail.setState(state);
+        return mpMail;
     }
 }

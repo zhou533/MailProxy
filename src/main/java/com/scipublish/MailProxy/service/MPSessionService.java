@@ -14,7 +14,7 @@ public interface MPSessionService {
     /**
      *
      * @param session
-     * @return
+     * @return id; when <0, session creating failed.
      */
     public Integer createSession(MPMailSession session);
 }

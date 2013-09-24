@@ -15,7 +15,7 @@ public class MPMailRecord {
     private Integer sessionId;
     private Timestamp sendTime;
     private Timestamp createTime;
-    private int state;
+    private Integer state;
     private String messageId;
     private String tag;
     private String campaign;
@@ -76,11 +76,11 @@ public class MPMailRecord {
         this.sessionId = sessionId;
     }
 
-    public int getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 

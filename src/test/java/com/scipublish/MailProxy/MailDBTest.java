@@ -22,7 +22,7 @@ import java.sql.Timestamp;
  * To change this template use File | Settings | File Templates.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/spring/applicationContext-db.xml" })
+@ContextConfiguration(locations = { "classpath:/spring/*.xml" })
 public class MailDBTest {
 
     @Autowired
@@ -33,6 +33,8 @@ public class MailDBTest {
 
     @Autowired
     private MPMailMapper mailMapper;
+
+
 
 
     @Test
@@ -62,12 +64,30 @@ public class MailDBTest {
     }
 
     @Test
+    public void testRecordUpdate() throws Exception {
+        MPMailRecord record = new MPMailRecord();
+        record.setReceiver("asdasd");
+        record.setState(2);
+        record.setSendTime(new Timestamp(System.currentTimeMillis()));
+        record.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        record.setSessionId(23);
+        record.setMessageId("a1111");
+        Integer id = mailRecordMapper.updateMailRecord(record);
+        System.out.println("--------->Record id : " + id);
+    }
+
+    @Test
     public void testMailInsert() throws Exception {
-        MPMail mail = new MPMail("SS@WS.com");
-        Boolean result = mailMapper.addMail(mail);
-        if (result)
-            System.out.println("--------->Record id : " + mail.getId());
-        else
-            System.out.println("add mail failed.");
+        MPMail mail = new MPMail("yo.zhouq@WS.com");
+        Integer result = mailMapper.addMail(mail);
+        System.out.println("--------->Record id : " + mail.getId() + " " + result);
+    }
+
+    @Test
+    public void testMailUpdate() throws Exception {
+        MPMail mail =  new MPMail("aaaddd@WS.com");
+        mail.setState(2);
+        Integer result = mailMapper.updateMail(mail);
+        System.out.println("--------->Record id : " + mail.getId() + " " + result);
     }
 }

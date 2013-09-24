@@ -21,6 +21,7 @@ public class MPSessionServiceImpl implements MPSessionService {
 
     @Override
     public Integer createSession(MPMailSession session) {
+
         return sessionMapper.addMailSession(session);
     }
 }

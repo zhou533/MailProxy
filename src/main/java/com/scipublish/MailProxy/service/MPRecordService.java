@@ -14,6 +14,7 @@ public interface MPRecordService {
     /**
      *
      */
-    //public Integer addRecord(MPMailRecord record);
+    public Integer addRecord(MPMailRecord record);
 
+    public Integer updateRecord(MPMailRecord record);
 }

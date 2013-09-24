@@ -1,13 +1,11 @@
 package com.scipublish.MailProxy.mailgun;
 
+import com.alibaba.fastjson.JSON;
 import com.scipublish.MailProxy.model.MPMail;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,6 +28,9 @@ public class MailGunSendBuilder {
     private String text;
     private String html;
     private String subject;
+
+    private String customVariable;
+    private String customVariableValue;
 
     private List<String> tag = new ArrayList<String>();
     private String campaign;
@@ -93,8 +94,19 @@ public class MailGunSendBuilder {
         return this;
     }
 
+    public MailGunSendBuilder addMail(MPMail mail){
+        this.to.add(mail);
+        return this;
+    }
+
     public MailGunSendBuilder addTag(String tag){
         this.tag.add(tag);
+        return this;
+    }
+
+    public MailGunSendBuilder addCustomVariable(String variable, Map<String, Object> values){
+        this.customVariable = variable;
+        this.customVariableValue = JSON.toJSONString(values);
         return this;
     }
 
@@ -192,20 +204,17 @@ public class MailGunSendBuilder {
             params.add(O_CAMPAIGN, campaign);
         }
 
-        if (trackEnable){
-            params.add(O_TRACKING, trackEnable);
-        }
-
-        if (trackClicksEnable){
-            params.add(O_TRACKING_CLICKS, trackClicksEnable);
-        }
-
-        if (trackOpensEnable){
-            params.add(O_TRACKING_OPENS, trackOpensEnable);
-        }
+        params.add(O_TRACKING, trackEnable?"yes":"no");
+        params.add(O_TRACKING_CLICKS, trackClicksEnable?"yes":"no");
+        params.add(O_TRACKING_OPENS, trackOpensEnable?"yes":"no");
 
         if (testEnable){
-            params.add(O_TEST_MODE, testEnable);
+            params.add(O_TEST_MODE, "yes");
+        }
+
+        if (!StringUtils.isEmpty(customVariable) &&
+                !StringUtils.isEmpty(customVariableValue)){
+            params.add("v:" + customVariable, customVariableValue);
         }
 
         return params;

@@ -11,10 +11,27 @@
 
     <!-- -->
     <insert id="addMail" parameterType="mail">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
         insert into tbl_mails (mail, name, state)
         values (#{mail},#{name},#{state})
     </insert>
 
+    <!-- -->
+    <update id="updateMail" parameterType="mail">
+        update tbl_mails
+        <set>
+            state=#{state}
+        </set>
+        where 1=1
+        <if test="id != null">
+            and id=#{id}
+        </if>
+        <if test="mail != null">
+            and mail=#{mail}
+        </if>
+    </update>
 
 
 </mapper>

@@ -36,6 +36,13 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
+    <!-- 启用事务 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="add*" propagation="REQUIRED" />
+        </tx:attributes>
+    </tx:advice>
+
     <bean id="mapperConfig" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.scipublish.MailProxy.mapper" />
         <property name="sqlSessionFactory" ref="sqlSessionFactory" />

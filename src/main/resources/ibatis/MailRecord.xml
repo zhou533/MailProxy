@@ -23,4 +23,39 @@
         values (#{receiver},#{sessionId},#{sendTime},#{createTime},#{messageId},#{state},#{tag},#{campaign})
     </insert>
 
+    <!-- -->
+    <update id="updateMailRecord" parameterType="record">
+        update tbl_mail_send_records
+        <set>
+            <if test="sessionId != null">
+                session_id=#{sessionId},
+            </if>
+            <if test="createTime != null">
+                create_time=#{createTime},
+            </if>
+            <if test="sendTime != null">
+                send_time=#{sendTime},
+            </if>
+            <if test="messageId != null">
+                message_id=#{messageId},
+            </if>
+            <if test="state != null">
+                state=#{state},
+            </if>
+            <if test="tag != null">
+                tag=#{tag},
+            </if>
+            <if test="campaign != null">
+                campaign=#{campaign},
+            </if>
+        </set>
+        where 1=1
+        <if test="id != null">
+            and id=#{id}
+        </if>
+        <if test="receiver != null">
+            and receiver=#{receiver}
+        </if>
+    </update>
+
 </mapper>

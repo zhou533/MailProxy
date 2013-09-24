@@ -12,4 +12,6 @@ import com.scipublish.MailProxy.model.MPMailRecord;
 public interface MPMailRecordMapper {
 
     public Integer addMailRecord(MPMailRecord record);
+
+    public Integer updateMailRecord(MPMailRecord record);
 }
