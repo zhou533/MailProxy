@@ -43,8 +43,8 @@ public class SendServiceTest {
         result = sendService.sendMail(mailSession,new MPMail("yo.zhouq@qq.com"));
         assertEquals(0, result.intValue());
 
-        //result = sendService.sendMail(mailSession, new MPMail("zhouqiang@gozap.com"));
-        //assertEquals(0, result.intValue());
+        result = sendService.sendMail(mailSession, new MPMail("zhouqiang@gozap.com"));
+        assertEquals(0, result.intValue());
 
     }
 }

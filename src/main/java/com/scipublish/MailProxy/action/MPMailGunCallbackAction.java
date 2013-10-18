@@ -1,7 +1,12 @@
 package com.scipublish.MailProxy.action;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.scipublish.MailProxy.service.MPCallbackService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +27,9 @@ import java.util.Enumeration;
 public class MPMailGunCallbackAction {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Autowired
+    private MPCallbackService callbackService;
 
     @RequestMapping(value = "drop", method = RequestMethod.POST)
     public void dropCallback(HttpServletRequest request, HttpServletResponse response){
@@ -50,8 +58,25 @@ public class MPMailGunCallbackAction {
         while (e.hasMoreElements()){
             String name = e.nextElement();
             String value = request.getParameter(name);
-            logger.info("name: " + name + " - " + value + "\n");
+            logger.info("name: " + name + " - " + value);
         }
+
+        String event = request.getParameter("event");
+        String mail = request.getParameter("recipient");
+        String mpid = request.getParameter("mpid");
+        String reason = request.getParameter("reason");
+
+        if (StringUtils.isEmpty(mpid)){
+            logger.info("No MPID returns!!");
+            return;
+        }
+
+        JSONObject mpidObject = JSON.parseObject(mpid);
+        Integer recordId = mpidObject.getInteger("recordId");
+        Integer mailId = mpidObject.getInteger("mailId");
+
+        //
+        callbackService.eventHandler(event, mail, recordId, mailId, reason);
     }
 
     @RequestMapping(value = "delivered", method = RequestMethod.POST)
@@ -73,8 +98,24 @@ public class MPMailGunCallbackAction {
         while (e.hasMoreElements()){
             String name = e.nextElement();
             String value = request.getParameter(name);
-            logger.info("name: " + name + " - " + value + "\n");
+            logger.info("name: " + name + " - " + value);
         }
+
+        String event = request.getParameter("event");
+        String mail = request.getParameter("recipient");
+        String mpid = request.getParameter("mpid");
+
+        if (StringUtils.isEmpty(mpid)){
+            logger.info("No MPID returns!!");
+            return;
+        }
+
+        JSONObject mpidObject = JSON.parseObject(mpid);
+        Integer recordId = mpidObject.getInteger("recordId");
+        Integer mailId = mpidObject.getInteger("mailId");
+
+        //
+        callbackService.eventHandler(event, mail, recordId, mailId, null);
     }
 
     @RequestMapping(value = "bounce", method = RequestMethod.POST)
@@ -87,6 +128,21 @@ public class MPMailGunCallbackAction {
             logger.info("name: " + name + " - " + value + "\n");
         }
 
+        String event = request.getParameter("event");
+        String mail = request.getParameter("recipient");
+        String mpid = request.getParameter("mpid");
+
+        if (StringUtils.isEmpty(mpid)){
+            logger.info("No MPID returns!!");
+            return;
+        }
+
+        JSONObject mpidObject = JSON.parseObject(mpid);
+        Integer recordId = mpidObject.getInteger("recordId");
+        Integer mailId = mpidObject.getInteger("mailId");
+
+        //
+        callbackService.eventHandler(event, mail, recordId, mailId, null);
     }
 
     @RequestMapping(value = "complaint", method = RequestMethod.POST)
@@ -98,6 +154,22 @@ public class MPMailGunCallbackAction {
             String value = request.getParameter(name);
             logger.info("name: " + name + " - " + value + "\n");
         }
+
+        String event = request.getParameter("event");
+        String mail = request.getParameter("recipient");
+        String mpid = request.getParameter("mpid");
+
+        if (StringUtils.isEmpty(mpid)){
+            logger.info("No MPID returns!!");
+            return;
+        }
+
+        JSONObject mpidObject = JSON.parseObject(mpid);
+        Integer recordId = mpidObject.getInteger("recordId");
+        Integer mailId = mpidObject.getInteger("mailId");
+
+        //
+        callbackService.eventHandler(event, mail, recordId, mailId, null);
     }
 
     @RequestMapping(value = "opens", method = RequestMethod.POST)
