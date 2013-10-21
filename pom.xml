@@ -5,7 +5,10 @@
     <groupId>com.scipublish.MailProxy</groupId>
     <artifactId>MailProxy</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <modules>
+        <module>MailSearchService</module>
+    </modules>
+    <packaging>pom</packaging>
 
     <name>MailProxy</name>
     <url>http://maven.apache.org</url>
