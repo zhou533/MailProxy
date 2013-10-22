@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
     http://www.springframework.org/schema/context
@@ -35,10 +36,31 @@
     </bean>
 
     <!-- jesque config -->
+    <!--
     <bean id="jesqueConfigBuilder" class="com.scipublish.MailProxy.common.JesqueConfigBuilder">
         <property name="host" value="172.16.9.103" />
         <property name="port" value="6379" />
         <property name="namespace" value="com.scipublish.mailproxy" />
         <property name="timeout" value="5000" />
+    </bean>
+    -->
+
+    <bean id="mpESClient" class="com.scipublish.MailProxy.elasticsearch.ESClient">
+        <constructor-arg name="host" value="${env.mailproxy.es.host1}" />
+        <constructor-arg name="port" value="${env.mailproxy.es.port1}" />
+        <constructor-arg name="clusterName" value="${env.mailproxy.es.cluster}" />
+    </bean>
+
+    <bean id="esIndexService" class="com.scipublish.MailProxy.elasticsearch.impl.ESIndexServiceImpl" lazy-init="true">
+        <constructor-arg name="esClient" ref="mpESClient" />
+    </bean>
+
+    <bean id="esSearchService" class="com.scipublish.MailProxy.elasticsearch.impl.ESSearchServiceImpl" lazy-init="true">
+        <constructor-arg name="esClient" ref="mpESClient" />
+    </bean>
+
+    <bean id="mailproxySearch" class="com.scipublish.MailProxy.search.impl.MailProxySearchImpl" lazy-init="true">
+        <constructor-arg name="esIndexService" ref="esIndexService" />
+        <constructor-arg name="esSearchService" ref="esSearchService" />
     </bean>
 </beans>

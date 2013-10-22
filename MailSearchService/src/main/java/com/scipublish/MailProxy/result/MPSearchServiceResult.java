@@ -1,5 +1,7 @@
 package com.scipublish.MailProxy.result;
 
+import java.io.Serializable;
+
 /**
  * Created with IntelliJ IDEA.
  * User: chouchris
@@ -8,7 +10,7 @@ package com.scipublish.MailProxy.result;
  * com.scipublish.MailProxy.result
  * MailProxy
  */
-public class MPSearchServiceResult {
+public class MPSearchServiceResult implements Serializable {
 
     private int code;
     private String description;

@@ -1,5 +1,6 @@
 package com.scipublish.MailProxy.result;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.Map;
  * com.scipublish.MailProxy.result
  * MailProxy
  */
-public class MPSearchResult {
+public class MPSearchResult implements Serializable {
     private long total;
     private int page;
     private int from;
