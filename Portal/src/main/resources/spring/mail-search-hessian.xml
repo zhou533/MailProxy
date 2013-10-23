@@ -7,7 +7,7 @@
 
     <!-- setup bean -->
     <bean name="/mSearch" class="org.springframework.remoting.caucho.HessianServiceExporter">
-        <property name="service" ref="mailproxySearch" />
+        <property name="service" ref="mailProxySearch" />
         <property name="serviceInterface" value="com.scipublish.MailProxy.search.MailProxySearch" />
     </bean>
 

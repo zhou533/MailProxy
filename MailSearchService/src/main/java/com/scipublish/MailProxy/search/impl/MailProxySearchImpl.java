@@ -2,10 +2,7 @@ package com.scipublish.MailProxy.search.impl;
 
 import com.scipublish.MailProxy.elasticsearch.ESIndexService;
 import com.scipublish.MailProxy.elasticsearch.ESSearchService;
-import com.scipublish.MailProxy.elasticsearch.common.ESField;
-import com.scipublish.MailProxy.elasticsearch.common.ESKeyword;
-import com.scipublish.MailProxy.elasticsearch.common.ESKeywordType;
-import com.scipublish.MailProxy.elasticsearch.common.ESOperationType;
+import com.scipublish.MailProxy.elasticsearch.common.*;
 import com.scipublish.MailProxy.result.MPSearchResult;
 import com.scipublish.MailProxy.result.MPSearchServiceResult;
 import com.scipublish.MailProxy.search.MailProxySearch;
@@ -99,12 +96,22 @@ public class MailProxySearchImpl implements MailProxySearch{
     }
 
     @Override
-    public MPSearchServiceResult searchMails(String keywords, String isan, String publisher, String category) {
+    public MPSearchServiceResult searchMails(String keywords,
+                                             String isan,
+                                             String publisher,
+                                             String category,
+                                             String preHighlightTag,
+                                             String postHighlightTag) {
         if (StringUtils.isEmpty(keywords) &&
                 StringUtils.isEmpty(isan) &&
                 StringUtils.isEmpty(publisher) &&
                 StringUtils.isEmpty(category)){
             return MPSearchServiceResult.ERR_PARAM;
+        }
+
+        ESHighlight highlight = null;
+        if (!StringUtils.isEmpty(preHighlightTag) && !StringUtils.isEmpty(postHighlightTag)){
+            highlight = new ESHighlight(preHighlightTag, postHighlightTag);
         }
 
         List<ESKeyword> esKeywordList = new ArrayList<ESKeyword>();
@@ -122,6 +129,10 @@ public class MailProxySearchImpl implements MailProxySearch{
             fieldList.add(new ESField("abstract_cn"));
             esKeyword.setFields(fieldList);
             esKeywordList.add(esKeyword);
+
+            if (highlight != null){
+                highlight.addField("subject");
+            }
         }
 
         //isan
@@ -132,6 +143,10 @@ public class MailProxySearchImpl implements MailProxySearch{
             isanFieldList.add(new ESField("isan_online"));
             esISAN.setFields(isanFieldList);
             esKeywordList.add(esISAN);
+
+            if (highlight != null){
+                highlight.addField("isan");
+            }
         }
 
 
@@ -142,9 +157,15 @@ public class MailProxySearchImpl implements MailProxySearch{
             publisherFieldList.add(new ESField("journal"));
             esPublisher.setFields(publisherFieldList);
             esKeywordList.add(esPublisher);
+
+            if (highlight != null){
+                highlight.addField("journal");
+            }
         }
 
-        MPSearchResult searchResult = esSearchService.search(MP_INDEX, MAIL_TYPE, esKeywordList, null, null, null, null, 0, 20);
+
+
+        MPSearchResult searchResult = esSearchService.search(MP_INDEX, MAIL_TYPE, esKeywordList, null, highlight, null, null, 0, 20);
         if (searchResult == null){
             return MPSearchServiceResult.ERR_PARAM;
         }

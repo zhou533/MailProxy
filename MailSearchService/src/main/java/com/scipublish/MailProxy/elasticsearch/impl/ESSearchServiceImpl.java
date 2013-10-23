@@ -16,6 +16,7 @@ import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.highlight.HighlightField;
 import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -134,6 +135,19 @@ public class ESSearchServiceImpl implements ESSearchService {
                 SearchHit hit = hits.getAt(i);
                 // add record source
                 Map<String, Object> sourceMap = hit.sourceAsMap();
+
+                //
+                Map<String, HighlightField> highlightMap = hit.highlightFields();
+                if (null != highlightMap){
+                    for (String k : highlightMap.keySet()){
+                        HighlightField hlField = highlightMap.get(k);
+                        if (null != hlField){
+                            org.elasticsearch.common.text.Text[] fragments = hlField.fragments();
+                            if (fragments != null && fragments.length > 0)
+                                sourceMap.put(k, fragments[0].toString());
+                        }
+                    }
+                }
 
                 // append to result list
                 resultList.add(sourceMap);

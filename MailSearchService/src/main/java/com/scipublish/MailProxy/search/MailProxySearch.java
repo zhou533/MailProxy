@@ -38,5 +38,7 @@ public interface MailProxySearch {
     public MPSearchServiceResult searchMails(String keywords,
                                              String isan,
                                              String publisher,
-                                             String category);
+                                             String category,
+                                             String preHighlightTag,
+                                             String postHighlightTag);
 }

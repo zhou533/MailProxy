@@ -29,6 +29,9 @@ public class MPSearchAction {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    private static final String preHighlightTag = "<em style=\"color:#EC0000;\">";
+    private static final String postHighlightTag = "</em>";
+
     @Autowired
     private MailProxySearch mailProxySearch;
 
@@ -51,7 +54,7 @@ public class MPSearchAction {
 
         logger.info("Year: " + start + "-" + end + " in " + scopes);
 
-        MPSearchServiceResult result = mailProxySearch.searchMails(keywords, issn, publisher, scopes);
+        MPSearchServiceResult result = mailProxySearch.searchMails(keywords, issn, publisher, scopes, preHighlightTag, postHighlightTag);
         if (result.getCode() != 0 || result.getObject() == null){
             model.addAttribute("count", 0);
             return "search";
@@ -59,7 +62,7 @@ public class MPSearchAction {
 
         MPSearchResult searchResult = (MPSearchResult)result.getObject();
         model.addAttribute("count", searchResult.getTotal());
-
+        model.addAttribute("results", searchResult.getResultList());
         return "search";
     }
 }

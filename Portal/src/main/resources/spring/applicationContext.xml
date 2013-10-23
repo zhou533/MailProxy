@@ -59,7 +59,7 @@
         <constructor-arg name="esClient" ref="mpESClient" />
     </bean>
 
-    <bean id="mailproxySearch" class="com.scipublish.MailProxy.search.impl.MailProxySearchImpl" lazy-init="true">
+    <bean id="mailProxySearch" class="com.scipublish.MailProxy.search.impl.MailProxySearchImpl" lazy-init="true">
         <constructor-arg name="esIndexService" ref="esIndexService" />
         <constructor-arg name="esSearchService" ref="esSearchService" />
     </bean>

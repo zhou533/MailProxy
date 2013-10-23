@@ -52,7 +52,7 @@ public class HessianTest {
 
     @Test
     public void testSearch() throws Exception {
-        MPSearchServiceResult result = this.mpSearch.searchMails("metakaolin", null, null,null);
+        MPSearchServiceResult result = this.mpSearch.searchMails(null, "00207462", null,null, "<em class=highlight>", "</em>");
         assertEquals(MPSearchServiceResult.OK.getCode(), result.getCode());
         if (result.getObject() != null){
             MPSearchResult searchResult = (MPSearchResult)result.getObject();
