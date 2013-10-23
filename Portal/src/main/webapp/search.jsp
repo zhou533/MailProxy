@@ -7,11 +7,7 @@
 <body>
 
 <div class="main_content" id="main_content">
-    <div class="search-area">
-        <form id="searchForm" name="searchForm" method="post" action="/search/show">
-
-        </form>
-    </div>
+    ${count}
 </div>
 
 </body>

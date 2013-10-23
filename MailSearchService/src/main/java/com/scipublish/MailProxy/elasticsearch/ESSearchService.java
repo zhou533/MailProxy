@@ -32,7 +32,6 @@ public interface ESSearchService {
     public MPSearchResult search(String indices,
                                 String mappingType,
                                 List<ESKeyword> keywords,
-                                List<ESField> fields,
                                 ESSort sort,
                                 ESHighlight highlight,
                                 ESTimeRange timeRange,

@@ -47,7 +47,6 @@ public class ESSearchServiceImpl implements ESSearchService {
     public MPSearchResult search(String indices,
                          String mappingType,
                          List<ESKeyword> keywords,
-                         List<ESField> fields,
                          ESSort sort,
                          ESHighlight highlight,
                          ESTimeRange timeRange,
@@ -58,14 +57,12 @@ public class ESSearchServiceImpl implements ESSearchService {
 
         if (StringUtils.isEmpty(indices) ||
                 StringUtils.isEmpty(mappingType) ||
-                keywords == null || keywords.size() == 0 ||
-                fields == null){
+                keywords == null || keywords.size() == 0){
             return null;
         }
 
         ESSearchQueryBuilder searchQueryBuilder = new ESSearchQueryBuilder();
         searchQueryBuilder.addKeywords(keywords);
-        searchQueryBuilder.addFields(fields);
         QueryBuilder queryBuilder = searchQueryBuilder.genQueryBuilder();
         if (queryBuilder == null){
             return null;

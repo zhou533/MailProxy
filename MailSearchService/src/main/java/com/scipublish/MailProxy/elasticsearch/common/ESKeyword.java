@@ -1,5 +1,7 @@
 package com.scipublish.MailProxy.elasticsearch.common;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: chouchris
@@ -12,11 +14,13 @@ public class ESKeyword {
     private String keyword;
     private ESKeywordType keywordType;
     private ESOperationType operationType;
+    private List<ESField> fields;
 
     public ESKeyword(String keyword, ESKeywordType keywordType, ESOperationType operationType) {
         this.keyword = keyword;
         this.keywordType = keywordType;
         this.operationType = operationType;
+        this.fields = null;
     }
 
     public String getKeyword() {
@@ -41,5 +45,13 @@ public class ESKeyword {
 
     public void setOperationType(ESOperationType operationType) {
         this.operationType = operationType;
+    }
+
+    public List<ESField> getFields() {
+        return fields;
+    }
+
+    public void setFields(List<ESField> fields) {
+        this.fields = fields;
     }
 }

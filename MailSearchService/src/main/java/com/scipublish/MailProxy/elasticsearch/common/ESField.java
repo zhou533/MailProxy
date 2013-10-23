@@ -15,6 +15,7 @@ public class ESField {
 
     public ESField(String field) {
         this.field = field;
+        this.boost = 1.0f;
     }
 
     public ESField(String field, float boost) {

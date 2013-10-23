@@ -1,5 +1,6 @@
 package com.scipublish.MailProxy;
 
+import com.scipublish.MailProxy.result.MPSearchResult;
 import com.scipublish.MailProxy.result.MPSearchServiceResult;
 import com.scipublish.MailProxy.search.MailProxySearch;
 import org.junit.Test;
@@ -47,5 +48,15 @@ public class HessianTest {
                 "Volume 16, Issue 5, October 2009, Pages 500–504",
                 "f7b0425544313c417a89d43b90d8e2cc");
         assertEquals(MPSearchServiceResult.OK.getCode(), result.getCode());
+    }
+
+    @Test
+    public void testSearch() throws Exception {
+        MPSearchServiceResult result = this.mpSearch.searchMails("metakaolin", null, null,null);
+        assertEquals(MPSearchServiceResult.OK.getCode(), result.getCode());
+        if (result.getObject() != null){
+            MPSearchResult searchResult = (MPSearchResult)result.getObject();
+            System.out.println(searchResult.toString());
+        }
     }
 }

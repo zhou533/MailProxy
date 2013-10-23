@@ -20,13 +20,13 @@ import java.util.List;
  */
 public class ESSearchQueryBuilder {
     private List<ESKeyword> keywords = new ArrayList<ESKeyword>();
-    private List<ESField> fields = new ArrayList<ESField>();
+    //private List<ESField> fields = new ArrayList<ESField>();
 
     public void addKeywords(List<ESKeyword> keywords){
         this.keywords.addAll(keywords);
     }
 
-    public void addKeyword(ESKeyword keyword){
+    /*public void addKeyword(ESKeyword keyword){
         keywords.add(keyword);
     }
 
@@ -37,9 +37,9 @@ public class ESSearchQueryBuilder {
 
     public void addKeyword(String keyword){
         addKeyword(keyword, ESKeywordType.SHOULD, ESOperationType.OR);
-    }
+    }*/
 
-    public void addFields(List<ESField> fields){
+    /*public void addFields(List<ESField> fields){
         this.fields.addAll(fields);
     }
 
@@ -54,35 +54,35 @@ public class ESSearchQueryBuilder {
 
     public void addField(String field){
         addField(field, 1.0f);
-    }
+    }*/
 
     public QueryBuilder genQueryBuilder(){
         if (this.keywords.size() <= 0){
             return null;
         }
 
-        if (this.fields.size() <= 0){
-
-            return null;
-        }
-
         QueryBuilder queryBuilder = null;
         if (this.keywords.size() == 1){
-            queryBuilder = createMatchQueryBuilder(this.keywords.get(0), this.fields);
+            queryBuilder = createMatchQueryBuilder(this.keywords.get(0));
         }else {
-            queryBuilder = createBoolQueryBuilder(this.keywords, this.fields);
+            queryBuilder = createBoolQueryBuilder(this.keywords);
         }
 
         return queryBuilder;
     }
 
-    private MatchQueryBuilder createSoloMatchQueryBuilder(ESKeyword keyword, ESField field){
-        MatchQueryBuilder matchQueryBuilder = QueryBuilders.matchQuery(field.getField(), keyword.getKeyword());
+    private MatchQueryBuilder createAllMatchQueryBuilder(String keyword){
+        ESField allField = new ESField("_all");
+        return createSoloMatchQueryBuilder(keyword, allField);
+    }
+
+    private MatchQueryBuilder createSoloMatchQueryBuilder(String keyword, ESField field){
+        MatchQueryBuilder matchQueryBuilder = QueryBuilders.matchQuery(field.getField(), keyword);
         return matchQueryBuilder;
     }
 
-    private MultiMatchQueryBuilder createMultiMatchQueryBuilder(ESKeyword keyword, List<ESField> fields){
-        MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(keyword.getKeyword());
+    private MultiMatchQueryBuilder createMultiMatchQueryBuilder(String keyword, ESOperationType operationType, List<ESField> fields){
+        MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(keyword);
         for (ESField field :fields){
             if (1.0f == field.getBoost()){
                 multiMatchQueryBuilder.field(field.getField());
@@ -90,7 +90,7 @@ public class ESSearchQueryBuilder {
                 multiMatchQueryBuilder.field(field.getField(), field.getBoost());
             }
         }
-        if (keyword.getOperationType() == ESOperationType.AND){
+        if (operationType == ESOperationType.AND){
             multiMatchQueryBuilder.operator(MatchQueryBuilder.Operator.AND);
         }else {
             multiMatchQueryBuilder.operator(MatchQueryBuilder.Operator.OR);
@@ -99,23 +99,37 @@ public class ESSearchQueryBuilder {
         return multiMatchQueryBuilder;
     }
 
-    private QueryBuilder createMatchQueryBuilder(ESKeyword keyword, List<ESField> fields){
-        QueryBuilder queryBuilder = (fields.size() > 1) ?
-                createMultiMatchQueryBuilder(keyword, fields) :
-                ((fields.size() == 1) ? createSoloMatchQueryBuilder(keyword, fields.get(0)) : null);
-        return queryBuilder;
+    private QueryBuilder createMatchQueryBuilder(ESKeyword keyword){
+        List<ESField> fieldList = keyword.getFields();
+        if (fieldList == null || fieldList.size() == 0){
+            return createAllMatchQueryBuilder(keyword.getKeyword());
+        }
+        if (fieldList.size() == 1){
+            return createSoloMatchQueryBuilder(keyword.getKeyword(), fieldList.get(0));
+        }
+
+        return createMultiMatchQueryBuilder(keyword.getKeyword(), keyword.getOperationType(), fieldList);
     }
 
-    private BoolQueryBuilder createBoolQueryBuilder(List<ESKeyword> keywords, List<ESField> fields){
+    private BoolQueryBuilder createBoolQueryBuilder(List<ESKeyword> keywords){
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
         for (ESKeyword kw : keywords){
-            QueryBuilder queryBuilder = (fields.size() > 1) ?
-                    createMultiMatchQueryBuilder(kw, fields) :
-                    ((fields.size() == 1) ? createSoloMatchQueryBuilder(kw, fields.get(0)) : null);
-            if (kw.getKeywordType() == ESKeywordType.MUST){
-                boolQueryBuilder.must(queryBuilder);
+            List<ESField> fieldList = kw.getFields();
+            QueryBuilder queryBuilder = null;
+            if (fieldList == null || fieldList.size() == 0){
+                queryBuilder = createAllMatchQueryBuilder(kw.getKeyword());
+            }else if(fieldList.size() == 1){
+                queryBuilder = createSoloMatchQueryBuilder(kw.getKeyword(), fieldList.get(0));
             }else {
-                boolQueryBuilder.should(queryBuilder);
+                queryBuilder = createMultiMatchQueryBuilder(kw.getKeyword(), kw.getOperationType(), fieldList);
+            }
+
+            if (queryBuilder != null){
+                if (kw.getKeywordType() == ESKeywordType.MUST){
+                    boolQueryBuilder.must(queryBuilder);
+                }else {
+                    boolQueryBuilder.should(queryBuilder);
+                }
             }
         }
         return boolQueryBuilder;
