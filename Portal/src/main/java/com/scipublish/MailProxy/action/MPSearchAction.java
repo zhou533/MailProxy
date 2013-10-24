@@ -52,9 +52,17 @@ public class MPSearchAction {
         String end = request.getParameter("end");
         String scopes = request.getParameter("scopes");
 
+        Integer scope = null;
+        try {
+            scope = Integer.valueOf(scopes);
+        }catch (Exception ex){
+            logger.error("Bad scope field.");
+        }
+
         logger.info("Year: " + start + "-" + end + " in " + scopes);
 
-        MPSearchServiceResult result = mailProxySearch.searchMails(keywords, issn, publisher, scopes, preHighlightTag, postHighlightTag);
+        MPSearchServiceResult result = mailProxySearch.searchMails(keywords,
+                issn, publisher, scope, start, end, preHighlightTag, postHighlightTag,0,25);
         if (result.getCode() != 0 || result.getObject() == null){
             model.addAttribute("count", 0);
             return "search";

@@ -20,9 +20,12 @@
                     <c:if test="${!empty r.journal}">
                         <span id="journal">${r.journal}</span>
                     </c:if>
+                    <c:if test="${!empty r.pub_date}">
+                        <span id="pub_date" style="font-weight:bold;color:#888;">${r.pub_date}</span>
+                    </c:if>
                 </div>
                 <c:if test="${!empty r.subject}">
-                    <div id="subject" style="color:#123;">${r.subject}</div>
+                    <div id="subject" style="color:#777;">${r.subject}</div>
                 </c:if>
 
                 <br>

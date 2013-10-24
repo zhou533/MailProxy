@@ -1,5 +1,8 @@
 package com.scipublish.MailProxy.elasticsearch.common;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created with IntelliJ IDEA.
  * User: chouchris
@@ -11,10 +14,13 @@ package com.scipublish.MailProxy.elasticsearch.common;
 public class ESTimeRange {
 
     private String dateField;
-    private long startTime;
-    private long endTime;
+    private String startTime;
+    private String endTime;
 
-    public ESTimeRange(String dateField, long startTime, long endTime) {
+    public ESTimeRange(String dateField, String startTime, String endTime) throws Exception {
+        if (!checkTime(startTime) || !checkTime(endTime)){
+            throw new Exception("Bad time format.");
+        }
         this.dateField = dateField;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -24,11 +30,21 @@ public class ESTimeRange {
         return dateField;
     }
 
-    public long getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public long getStartTime() {
+    public String getStartTime() {
         return startTime;
+    }
+
+    private static boolean checkTime(String formattedTime){
+        return checkMatcher("\\d{4}-\\d{2}", formattedTime);
+    }
+
+    private static boolean checkMatcher(String regex, String source){
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(source.toLowerCase());
+        return matcher.matches();
     }
 }
