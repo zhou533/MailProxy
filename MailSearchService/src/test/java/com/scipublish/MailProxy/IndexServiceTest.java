@@ -52,9 +52,10 @@ public class IndexServiceTest {
                 "International Journal of Minerals, Metallurgy and Materials",
                 "16744799",
                 "",
-                "",
-                "",
+                0,
+                0,
                 "Volume 16, Issue 5, October 2009, Pages 500–504",
+                "2009-01-01",
                 "f7b0425544313c417a89d43b90d8e2cc");
 
         assertEquals(MPSearchServiceResult.OK.getCode(), result.getCode());

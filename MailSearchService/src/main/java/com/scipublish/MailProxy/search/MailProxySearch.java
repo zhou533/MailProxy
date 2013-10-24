@@ -30,15 +30,19 @@ public interface MailProxySearch {
                                              String journal,
                                              String isan,
                                              String isan_online,
-                                             String category,
-                                             String subcategory,
+                                             int category,
+                                             int subcategory,
+                                             String vol,
                                              String pubdate,
                                              String hashId);
 
     public MPSearchServiceResult searchMails(String keywords,
                                              String isan,
                                              String publisher,
-                                             String category,
+                                             Integer category,
+                                             String startTime,
+                                             String enfTime,
                                              String preHighlightTag,
-                                             String postHighlightTag);
+                                             String postHighlightTag,
+                                             Integer start, Integer size);
 }

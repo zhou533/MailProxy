@@ -61,7 +61,27 @@ public class MailProxySearchImpl implements MailProxySearch{
     }
 
     @Override
-    public MPSearchServiceResult putMailData(long mid, String name, String email, String institution, String subject, String subject_cn, String keywords, String keywords_cn, String summary, String summary_cn, String doi, String pdf_url, String url, String journal, String isan, String isan_online, String category, String subcategory, String pubdate, String hashId) {
+    public MPSearchServiceResult putMailData(long mid,
+                                             String name,
+                                             String email,
+                                             String institution,
+                                             String subject,
+                                             String subject_cn,
+                                             String keywords,
+                                             String keywords_cn,
+                                             String summary,
+                                             String summary_cn,
+                                             String doi,
+                                             String pdf_url,
+                                             String url,
+                                             String journal,
+                                             String isan,
+                                             String isan_online,
+                                             int category,
+                                             int subcategory,
+                                             String vol,
+                                             String pubdate,
+                                             String hashId) {
         if (StringUtils.isEmpty(email)){
             return MPSearchServiceResult.ERR_PARAM;
         }
@@ -84,8 +104,9 @@ public class MailProxySearchImpl implements MailProxySearch{
         fieldMap.put("isan", isan);
         fieldMap.put("isan_online", isan_online);
         fieldMap.put("category", category);
-        fieldMap.put("vol", pubdate);
-        fieldMap.put("pub_date", System.currentTimeMillis()/1000);
+        fieldMap.put("subcategory", subcategory);
+        fieldMap.put("vol", vol);
+        fieldMap.put("pub_date", pubdate);
         fieldMap.put("hashId", hashId);
 
         if (!esIndexService.putIndex(MP_INDEX, MAIL_TYPE, String.valueOf(mid), fieldMap)){
@@ -99,14 +120,32 @@ public class MailProxySearchImpl implements MailProxySearch{
     public MPSearchServiceResult searchMails(String keywords,
                                              String isan,
                                              String publisher,
-                                             String category,
+                                             Integer category,
+                                             String startTime,
+                                             String endTime,
                                              String preHighlightTag,
-                                             String postHighlightTag) {
+                                             String postHighlightTag,
+                                             Integer start, Integer size) {
         if (StringUtils.isEmpty(keywords) &&
                 StringUtils.isEmpty(isan) &&
                 StringUtils.isEmpty(publisher) &&
-                StringUtils.isEmpty(category)){
+                category == null){
             return MPSearchServiceResult.ERR_PARAM;
+        }
+
+        ESTimeRange timeRange = null;
+        if (!StringUtils.isEmpty(startTime) || !StringUtils.isEmpty(endTime)){
+            try {
+                timeRange = new ESTimeRange("pub_date", startTime, endTime);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return MPSearchServiceResult.ERR_PARAM;
+            }
+        }
+
+        ESFixedTerm categoryTerm = null;
+        if (category != null && category != 0){
+            categoryTerm = new ESFixedTerm("category", category);
         }
 
         ESHighlight highlight = null;
@@ -165,7 +204,8 @@ public class MailProxySearchImpl implements MailProxySearch{
 
 
 
-        MPSearchResult searchResult = esSearchService.search(MP_INDEX, MAIL_TYPE, esKeywordList, null, highlight, null, null, 0, 20);
+        MPSearchResult searchResult = esSearchService.search(MP_INDEX, MAIL_TYPE,
+                esKeywordList, null, highlight, timeRange, categoryTerm, start, size);
         if (searchResult == null){
             return MPSearchServiceResult.ERR_PARAM;
         }
@@ -278,16 +318,12 @@ public class MailProxySearchImpl implements MailProxySearch{
                                     .field("index", "not_analyzed")
                                 .endObject()
                                 .startObject("category")
-                                    .field("type", "string")
+                                    .field("type", "integer")
                                     .field("store", "yes")
-                                    .field("analyzer", "standard")
-                                    .field("term_vector", "with_positions_offsets")
                                 .endObject()
                                 .startObject("subcategory")
-                                    .field("type", "string")
+                                    .field("type", "integer")
                                     .field("store", "yes")
-                                    .field("analyzer", "standard")
-                                    .field("term_vector", "with_positions_offsets")
                                 .endObject()
                                 .startObject("vol")
                                     .field("type", "string")
@@ -298,7 +334,7 @@ public class MailProxySearchImpl implements MailProxySearch{
                                 .startObject("pub_date")
                                     .field("type", "date")
                                     .field("store", "yes")
-                                    .field("format", "YYYY-MM-dd")
+                                    .field("format", "YYYY-MM")
                                 .endObject()
                                 .startObject("hashId")
                                     .field("type", "string")

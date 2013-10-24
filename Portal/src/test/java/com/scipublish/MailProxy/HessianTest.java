@@ -43,16 +43,17 @@ public class HessianTest {
                 "International Journal of Minerals, Metallurgy and Materials",
                 "16744799",
                 "",
-                "",
-                "",
+                0,
+                0,
                 "Volume 16, Issue 5, October 2009, Pages 500–504",
+                "2009-01-01",
                 "f7b0425544313c417a89d43b90d8e2cc");
         assertEquals(MPSearchServiceResult.OK.getCode(), result.getCode());
     }
 
     @Test
     public void testSearch() throws Exception {
-        MPSearchServiceResult result = this.mpSearch.searchMails(null, "00207462", null,null, "<em class=highlight>", "</em>");
+        MPSearchServiceResult result = this.mpSearch.searchMails(null, "00207462", null,null,null,null, "<em class=highlight>", "</em>",0,20);
         assertEquals(MPSearchServiceResult.OK.getCode(), result.getCode());
         if (result.getObject() != null){
             MPSearchResult searchResult = (MPSearchResult)result.getObject();
