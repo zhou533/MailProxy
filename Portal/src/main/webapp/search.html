@@ -2,52 +2,78 @@
 <html>
 <head>
     <title>Mail Proxy - Search</title>
+    <link href="./resources/css/bootstrap.min.css" rel="stylesheet"  type="text/css" />
 </head>
 <body>
-<form action="/search/search.do" method="POST">
-    Keywords: <input type="text" name="keywords" />
-    <br />
-    ISSN: <input type="text" name="issn" />
-    <br />
-    Publisher: <input type="text" name="publisher" />
-    <br />
-    <input type="text" name="start" placeholder="1970-01" />
-    -
-    <input type="text" name="end" placeholder="2013-12" />
-    <br />
-    <select name="scopes">
-        <option value="0">不限</option>
-        <option value="1">语言学</option>
-        <option value="2">教育学</option>
-        <option value="3">哲学</option>
-        <option value="4">心理学</option>
-        <option value="5">法学</option>
-        <option value="6">经济学</option>
-        <option value="7">生物医学</option>
-        <option value="8">国学</option>
-        <option value="9">生命科学</option>
-        <option value="10">生物学与生态学</option>
-        <option value="28">生物材料学</option>
-        <option value="11">化学</option>
-        <option value="12">数学</option>
-        <option value="13">物理学</option>
-        <option value="14">统计学</option>
-        <option value="15">水科学</option>
-        <option value="16">环境科学</option>
-        <option value="17">工程学</option>
-        <option value="18">能源学</option>
-        <option value="19">食品科学</option>
-        <option value="20">营养学</option>
-        <option value="21">材料学</option>
-        <option value="22">计算机科学</option>
-        <option value="27">分子学</option>
-        <option value="23">天文学</option>
-        <option value="24">气候学</option>
-        <option value="25">地球科学</option>
-        <option value="26">地理学</option>
-        <option value="29">农业学</option>
-    </select>
-    <input type="submit" value="Search" />
-</form>
+<div class="container">
+    <div class="row" style="margin-top: 50px">
+        <div class="col-md-6 col-md-offset-3">
+            <form role="form" action="/search/search.do" method="POST">
+                <div class="form-group">
+                    <label for="inputKeykords">Keywords</label>
+                    <input class="form-control" type="text" name="keywords" id="inputKeykords"/>
+                </div>
+                <div class="form-group">
+                    <label for="inputISSN">ISSN</label>
+                    <input class="form-control" type="text" name="issn" id="inputISSN"/>
+                </div>
+                <div class="form-group">
+                    <label for="inputJournal">Journal</label>
+                    <input class="form-control" type="text" name="publisher" id="inputJournal"/>
+                </div>
+                <div class="form-group">
+                    <label for="inputDate">Start - End</label>
+                    <div class="row" id="inputDate">
+                        <div class="col-md-6">
+                            <input class="form-control" type="text" name="start" placeholder="YYYY-MM" />
+                        </div>
+                        <div class="col-md-6">
+                            <input class="form-control" type="text" name="end" placeholder="YYYY-MM" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="selectScope">Scope</label>
+                    <select class="form-control" name="scopes" id="selectScope">
+                        <option value="0">不限</option>
+                        <option value="1">1-语言学</option>
+                        <option value="2">2-教育学</option>
+                        <option value="3">3-哲学</option>
+                        <option value="4">4-心理学</option>
+                        <option value="5">5-法学</option>
+                        <option value="6">6-经济学</option>
+                        <option value="7">7-生物医学</option>
+                        <option value="8">8-国学</option>
+                        <option value="9">9-生命科学</option>
+                        <option value="10">10-生物学与生态学</option>
+                        <option value="28">28-生物材料学</option>
+                        <option value="11">11-化学</option>
+                        <option value="12">12-数学</option>
+                        <option value="13">13-物理学</option>
+                        <option value="14">14-统计学</option>
+                        <option value="15">15-水科学</option>
+                        <option value="16">16-环境科学</option>
+                        <option value="17">17-工程学</option>
+                        <option value="18">18-能源学</option>
+                        <option value="19">19-食品科学</option>
+                        <option value="20">20-营养学</option>
+                        <option value="21">21-材料学</option>
+                        <option value="22">22-计算机科学</option>
+                        <option value="27">27-分子学</option>
+                        <option value="23">23-天文学</option>
+                        <option value="24">24-气候学</option>
+                        <option value="25">25-地球科学</option>
+                        <option value="26">26-地理学</option>
+                        <option value="29">29-农业学</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Search" class="btn btn-primary"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
