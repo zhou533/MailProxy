@@ -2,6 +2,8 @@ package com.scipublish.MailProxy.service;
 
 import com.scipublish.MailProxy.model.MPMailSession;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: chouchris
@@ -17,4 +19,10 @@ public interface MPSessionService {
      * @return id; when <0, session creating failed.
      */
     public Integer createSession(MPMailSession session);
+
+    public Integer updateSession(MPMailSession session);
+
+    public List<MPMailSession> listSessions(Integer page, Integer size);
+
+    public MPMailSession showSession(Integer id);
 }

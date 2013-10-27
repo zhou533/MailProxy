@@ -23,6 +23,8 @@ public class MailGunSendBuilder {
     private static final String O_TRACKING_CLICKS = "o:tracking-clicks";
     private static final String O_TRACKING_OPENS = "o:tracking-opens";
 
+    private static final String RECIPIENT_VARIABLES = "recipient-variables";
+
     private String from;
     private Set<MPMail> to = new HashSet<MPMail>();
     private String text;
@@ -38,6 +40,8 @@ public class MailGunSendBuilder {
     private boolean trackClicksEnable;
     private boolean trackOpensEnable;
     private boolean testEnable;
+
+     public String recipient_variables;
 
     public  MailGunSendBuilder setSubject(String subject){
         this.subject = subject;
@@ -217,6 +221,10 @@ public class MailGunSendBuilder {
             params.add("v:" + customVariable, customVariableValue);
         }
 
+        /////
+         if (!StringUtils.isEmpty(recipient_variables)){
+             params.add(RECIPIENT_VARIABLES, recipient_variables);
+         }
         return params;
     }
 

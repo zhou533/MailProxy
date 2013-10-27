@@ -20,29 +20,23 @@ import java.util.List;
  * Time: PM5:25
  * To change this template use File | Settings | File Templates.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/spring/applicationContext.xml" })
 public class MailGunAPITest {
 
-    @Autowired
-    MailGunConfiguration mailGunConfiguration;
-
-    @Autowired
-    MailProxyConfiguration mailProxyConfiguration;
 
     @Test
     public void testSendHtmlMail() throws Exception {
         MailGunSendBuilder builder = new MailGunSendBuilder()
                 .setFrom("me@scipublish.com")
-                .addMail("zhouqiang@gozap.com")
-                .setSubject("Hello Mailgun")
-                .setHtml("<a href=\"http://www.w3school.com.cn\">W3School</a>").setTrackEnable(true)
-                .setTrackClicksEnable(true)
-                .setTrackOpensEnable(true);
+                .addMail("yo.zhouq@qq.com")
+                .setSubject("Hello Mailgun %recipient.name%")
+                .setHtml("<a href=\"http://www.w3school.com.cn?id=%recipient.name%&name=%recipient.id%\">W3School</a>").setTrackEnable(true)
+                .setTrackClicksEnable(false)
+                .setTrackOpensEnable(false);
+        builder.recipient_variables = "{\"yo.zhouq@qq.com\":{\"name\":\"hahassssssss\",\"id\":\"123333333\"}}";
         System.out.println(builder.toString());
         String result = MailGunAPI.SendMail(
-                mailGunConfiguration.getKey(),
-                mailProxyConfiguration.getDomain(),
+                "key-8n6oqa7yq-wa3fyfoqm6ostvkr-x9p87",
+                "scipublish.com",
                 builder);
         System.out.println(result);
 

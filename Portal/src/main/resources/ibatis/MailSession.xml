@@ -21,4 +21,16 @@
         values (#{session},#{createTime},#{sendTime},#{from},#{subject},#{content})
     </insert>
 
+    <update id="updateMailSession" parameterMap="session">
+        update tbl_mail_send_session set session=#{session}, send_time=#{sendTime}, sender=#{from}, subject=#{subject}, content={content} where id=#{id}
+    </update>
+    
+    <select id="listMailSessions" parameterType="Integer" resultMap="sessionMap">
+        select * from tbl_mail_send_session limit #{page}, #{size}
+    </select>
+    
+    <select id="showMailSession" resultMap="sessionMap">
+        select * from tbl_mail_send_session where id=#{id}
+    </select>
+
 </mapper>

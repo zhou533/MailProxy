@@ -2,6 +2,8 @@ package com.scipublish.MailProxy.mapper;
 
 import com.scipublish.MailProxy.model.MPMailSession;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: chouchris
@@ -12,5 +14,7 @@ import com.scipublish.MailProxy.model.MPMailSession;
 public interface MPMailSessionMapper {
 
     public Integer addMailSession(MPMailSession session);
-
+    public Integer updateMailSession(MPMailSession session);
+    public List<MPMailSession> listMailSessions(Integer page, Integer size);
+    public MPMailSession showMailSession(Integer id);
 }

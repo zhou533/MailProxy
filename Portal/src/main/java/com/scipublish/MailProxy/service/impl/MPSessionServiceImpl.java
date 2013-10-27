@@ -6,6 +6,8 @@ import com.scipublish.MailProxy.service.MPSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: chouchris
@@ -23,5 +25,20 @@ public class MPSessionServiceImpl implements MPSessionService {
     public Integer createSession(MPMailSession session) {
 
         return sessionMapper.addMailSession(session);
+    }
+
+    @Override
+    public Integer updateSession(MPMailSession session) {
+        return sessionMapper.updateMailSession(session);
+    }
+
+    @Override
+    public List<MPMailSession> listSessions(Integer page, Integer size) {
+        return sessionMapper.listMailSessions(page, size);
+    }
+
+    @Override
+    public MPMailSession showSession(Integer id) {
+        return sessionMapper.showMailSession(id);
     }
 }

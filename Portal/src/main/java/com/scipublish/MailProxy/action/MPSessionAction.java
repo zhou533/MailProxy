@@ -7,12 +7,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.util.Enumeration;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -60,5 +62,19 @@ public class MPSessionAction {
         if (result > 0){
             logger.info("Create session succeed.");
         }
+    }
+
+    @RequestMapping("list")
+    public String showSessions(Integer page, Model model, HttpServletRequest request, HttpServletResponse response){
+        logger.info("list sessions");
+
+        if (page == null || page < 1){
+            page = 1;
+        }
+
+        List<MPMailSession> sessions = sessionService.listSessions(page, 25);
+
+
+        return "sessions";
     }
 }
