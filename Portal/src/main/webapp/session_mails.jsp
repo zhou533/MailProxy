@@ -40,7 +40,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" onclick="">Add</button>
+                            <button type="button" class="btn btn-primary" id="buttonAdd" onclick="addSessionMails([${variables}]);">Add</button>
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
@@ -70,7 +70,16 @@
 </div>
 
 <script type="text/javascript">
+    $(document).ready(function() {
 
+    });
+
+    function addSessionMails(variables){
+        var email = document.getElementById("inputEmail").value;
+        for(var i = 0; i < variables.length; i++){
+
+        }
+    };
 </script>
 
 
