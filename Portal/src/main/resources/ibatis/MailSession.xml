@@ -4,7 +4,7 @@
 
     <resultMap id="sessionMap" type="com.scipublish.MailProxy.model.MPMailSession">
         <result column="id" property="id" jdbcType="BIGINT" />
-        <result column="session" property="session" jdbcType="VARCHAR" />
+        <result column="session_name" property="session" jdbcType="VARCHAR" />
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
         <result column="send_time" property="sendTime" jdbcType="TIMESTAMP" />
         <result column="sender" property="from" jdbcType="VARCHAR" />
@@ -17,15 +17,15 @@
         <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
             SELECT LAST_INSERT_ID() AS id
         </selectKey>
-        insert into tbl_mail_send_session (session, create_time, send_time, sender, subject, content)
+        insert into tbl_mail_send_session (session_name, create_time, send_time, sender, subject, content)
         values (#{session},#{createTime},#{sendTime},#{from},#{subject},#{content})
     </insert>
 
-    <update id="updateMailSession" parameterMap="session">
-        update tbl_mail_send_session set session=#{session}, send_time=#{sendTime}, sender=#{from}, subject=#{subject}, content={content} where id=#{id}
+    <update id="updateMailSession" parameterType="session">
+        update tbl_mail_send_session set session_name=#{session}, send_time=#{sendTime}, sender=#{from}, subject=#{subject}, content={content} where id=#{id}
     </update>
     
-    <select id="listMailSessions" parameterType="Integer" resultMap="sessionMap">
+    <select id="listMailSessions" parameterType="java.lang.Integer" resultMap="sessionMap">
         select * from tbl_mail_send_session limit #{page}, #{size}
     </select>
     

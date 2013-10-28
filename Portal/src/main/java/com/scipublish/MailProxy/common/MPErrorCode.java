@@ -10,6 +10,7 @@ package com.scipublish.MailProxy.common;
 public class MPErrorCode {
 
     public final static int PARAM_MISSING = 600;
+    public final static int PARAM_INVALID = 601;
     public final static int SESSION_INVALID = 1001;
 
     public final static int RECORD_ERR = 2001;

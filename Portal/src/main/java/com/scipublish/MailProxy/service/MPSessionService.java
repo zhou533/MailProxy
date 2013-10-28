@@ -1,6 +1,7 @@
 package com.scipublish.MailProxy.service;
 
 import com.scipublish.MailProxy.model.MPMailSession;
+import com.scipublish.MailProxy.model.MPMailSessionMails;
 
 import java.util.List;
 
@@ -19,10 +20,10 @@ public interface MPSessionService {
      * @return id; when <0, session creating failed.
      */
     public Integer createSession(MPMailSession session);
-
     public Integer updateSession(MPMailSession session);
-
     public List<MPMailSession> listSessions(Integer page, Integer size);
-
     public MPMailSession showSession(Integer id);
+
+    public Integer addSessionMails(MPMailSessionMails sessionMails);
+    public Integer updateSessionMails(MPMailSessionMails sessionMails);
 }

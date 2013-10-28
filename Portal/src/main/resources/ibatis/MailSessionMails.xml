@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.scipublish.MailProxy.mapper.MPMailSessionMailsMapper">
+    <resultMap id="sessionMailsMap" type="com.scipublish.MailProxy.model.MPMailSessionMails">
+        <result column="id" property="id" jdbcType="BIGINT" />
+        <result column="session_id" property="sessionId" jdbcType="BIGINT" />
+        <result column="type" property="type" jdbcType="BIGINT" />
+        <result column="params" property="params" jdbcType="BIGINT" />
+    </resultMap>
+
+    <insert id="addSessionMails" parameterType="sessionMails">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        insert into tbl_mail_send_session_mails (session_id, type, params)
+        values (#{sessionId},#{type},#{params})
+    </insert>
+
+    <update id="updateSessionMails" parameterType="sessionMails">
+        update tbl_mail_send_session_mails set session_id=#{sessionId}, type=#{type}, params=#{params} where id=#{id}
+    </update>
+
+    <select id="listSessionMails" parameterType="java.lang.Integer" resultMap="sessionMap">
+        select * from tbl_mail_send_session where session_id=#{sessionId} limit #{page}, #{size}
+    </select>
+
+    <select id="showSessionMails" resultMap="sessionMap">
+        select * from tbl_mail_send_session where id=#{id}
+    </select>
+
+</mapper>

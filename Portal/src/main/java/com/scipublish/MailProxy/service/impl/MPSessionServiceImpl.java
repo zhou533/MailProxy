@@ -1,7 +1,9 @@
 package com.scipublish.MailProxy.service.impl;
 
+import com.scipublish.MailProxy.mapper.MPMailSessionMailsMapper;
 import com.scipublish.MailProxy.mapper.MPMailSessionMapper;
 import com.scipublish.MailProxy.model.MPMailSession;
+import com.scipublish.MailProxy.model.MPMailSessionMails;
 import com.scipublish.MailProxy.service.MPSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,9 @@ public class MPSessionServiceImpl implements MPSessionService {
 
     @Autowired
     private MPMailSessionMapper sessionMapper;
+
+    @Autowired
+    private MPMailSessionMailsMapper sessionMailsMapper;
 
     @Override
     public Integer createSession(MPMailSession session) {
@@ -40,5 +45,15 @@ public class MPSessionServiceImpl implements MPSessionService {
     @Override
     public MPMailSession showSession(Integer id) {
         return sessionMapper.showMailSession(id);
+    }
+
+    @Override
+    public Integer addSessionMails(MPMailSessionMails sessionMails) {
+        return sessionMailsMapper.addSessionMails(sessionMails);
+    }
+
+    @Override
+    public Integer updateSessionMails(MPMailSessionMails sessionMails) {
+        return sessionMailsMapper.updateSessionMails(sessionMails);
     }
 }
